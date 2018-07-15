@@ -1,6 +1,7 @@
 package com.springAprendendo.br.aprendendo;
 
 import com.springAprendendo.br.aprendendo.domain.*;
+import com.springAprendendo.br.aprendendo.domain.domain.enums.EstadoPagamento;
 import com.springAprendendo.br.aprendendo.domain.domain.enums.TipoCliente;
 import com.springAprendendo.br.aprendendo.repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +9,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Collections;
 
@@ -26,6 +28,10 @@ public class AprendendoApplication implements CommandLineRunner {
 	private ClienteRepository clienteRepository;
 	@Autowired
 	private EnderecoRepository enderecoRepository;
+	@Autowired
+	private PagamentoRepository pagamentoRepository;
+	@Autowired
+	private PedidoRepository pedidoRepository;
 
 	public static void main(String[] args) {
 		SpringApplication.run(AprendendoApplication.class, args);
@@ -75,6 +81,22 @@ public class AprendendoApplication implements CommandLineRunner {
 
 		clienteRepository.saveAll(Collections.singletonList(cli1));
 		enderecoRepository.saveAll(Arrays.asList(e1,e2));
+
+		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+		Pedido ped1 = new Pedido(null,sdf.parse("30/09/2017 10:32"),cli1,e1);
+		Pedido ped2 = new Pedido(null, sdf.parse("10/10/2017 19:30"),cli1,e2);
+
+		Pagamento pegato1 = new PagamentoComCartao(null,EstadoPagamento.QUITADO,ped1,6);
+		ped1.setPagamento(pegato1);
+
+		Pagamento pagato2 = new PagamentoComBoleto(null,EstadoPagamento.PENDENTE,ped2,sdf.parse("20/10/2017 00:00"),null);
+		ped2.setPagamento(pagato2);
+
+		cli1.getPedidos().addAll(Arrays.asList(ped1,ped2));
+
+		pedidoRepository.saveAll(Arrays.asList(ped1,ped2));
+		pagamentoRepository.saveAll(Arrays.asList(pegato1,pagato2));
+
 
 
 	}

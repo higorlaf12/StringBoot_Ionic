@@ -1,6 +1,5 @@
 package com.springAprendendo.br.aprendendo.domain;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
@@ -18,7 +17,7 @@ public class Produto implements Serializable {
     private String nome;
     private Double preco;
 
-    @JsonBackReference
+    @JsonIgnore
     @ManyToMany
     @JoinTable(
             name = "PRODUTO_CATEGORIA",
@@ -31,7 +30,8 @@ public class Produto implements Serializable {
     @OneToMany(mappedBy = "id.produto")
     private Set<ItemPedido> itemPedidoSet = new HashSet<>();
 
-    public Produto(){}
+    public Produto() {
+    }
 
     public Produto(Integer id, String nome, Double preco) {
         this.id = id;
@@ -40,9 +40,9 @@ public class Produto implements Serializable {
     }
 
     @JsonIgnore
-    public List<Pedido> getPedidos(){
+    public List<Pedido> getPedidos() {
         List<Pedido> lista = new ArrayList<>();
-        for (ItemPedido x: itemPedidoSet) {
+        for (ItemPedido x : itemPedidoSet) {
             lista.add(x.getPedido());
         }
         return lista;

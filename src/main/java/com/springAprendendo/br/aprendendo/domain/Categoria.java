@@ -1,7 +1,5 @@
 package com.springAprendendo.br.aprendendo.domain;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -18,11 +16,12 @@ public class Categoria implements Serializable {
     @Column(name = "nome")
     private String nome;
 
-    @JsonManagedReference
+
     @ManyToMany(mappedBy = "categoriaList")
     private List<Produto> produtos = new ArrayList<>();
 
-    public Categoria (){}
+    public Categoria() {
+    }
 
     public Categoria(Integer id, String nome) {
         this.id = id;

@@ -112,7 +112,5 @@ public class AprendendoApplication implements CommandLineRunner {
 
 		itempedidoRepository.saveAll(Arrays.asList(ip1,ip2,ip3));
 
-
-
 	}
 }

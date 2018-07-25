@@ -3,7 +3,9 @@ package com.springAprendendo.br.aprendendo.domain;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
 @Entity
 public class Pedido implements Serializable {
@@ -18,17 +20,23 @@ public class Pedido implements Serializable {
     @OneToOne(cascade = CascadeType.ALL, mappedBy = "pedido")
     private Pagamento pagamento;
 
-   @ManyToOne
-   @JoinColumn(name = "cliente_id")
-    private  Cliente cliente;
+
+    @ManyToOne
+    @JoinColumn(name = "cliente_id")
+    private Cliente cliente;
+
 
     @ManyToOne
     @JoinColumn(name = "endereco_de_entrega_id")
-    private  Endereco enderecoDeEntrega;
+    private Endereco enderecoDeEntrega;
 
-    public Pedido(){}
+    @OneToMany(mappedBy = "id.pedido")
+    private Set<ItemPedido> itemPedidoSet = new HashSet<>();
 
-    public Pedido(Integer id,Date instante, Cliente cliente,Endereco enderecoDeEntrega) {
+    public Pedido() {
+    }
+
+    public Pedido(Integer id, Date instante, Cliente cliente, Endereco enderecoDeEntrega) {
         this.id = id;
         this.instante = instante;
         this.cliente = cliente;
@@ -53,6 +61,14 @@ public class Pedido implements Serializable {
 
     public Pagamento getPagamento() {
         return pagamento;
+    }
+
+    public Set<ItemPedido> getItemPedidoSet() {
+        return itemPedidoSet;
+    }
+
+    public void setItemPedidoSet(Set<ItemPedido> itemPedidoSet) {
+        this.itemPedidoSet = itemPedidoSet;
     }
 
     public void setPagamento(Pagamento pagamento) {

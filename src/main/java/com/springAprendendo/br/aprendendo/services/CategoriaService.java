@@ -2,8 +2,10 @@ package com.springAprendendo.br.aprendendo.services;
 
 import com.springAprendendo.br.aprendendo.domain.Categoria;
 import com.springAprendendo.br.aprendendo.repositories.CategoriaRepository;
+import com.springAprendendo.br.aprendendo.services.services.exceptions.DateIntegrityException;
 import com.springAprendendo.br.aprendendo.services.services.exceptions.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -27,6 +29,15 @@ public class CategoriaService {
     public Categoria update(Categoria categoria){
         find(categoria.getId());
         return categoriaRepository.save(categoria);
+    }
+
+    public void delete(Integer id){
+        find(id);
+        try {
+            categoriaRepository.deleteById(id);
+        }catch (DataIntegrityViolationException e){
+            throw new DateIntegrityException("Não é possível excluir uma categoria que apresenta produtos");
+        }
     }
 
 }

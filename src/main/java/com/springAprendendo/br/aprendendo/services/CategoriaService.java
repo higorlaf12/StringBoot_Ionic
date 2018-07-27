@@ -1,6 +1,7 @@
 package com.springAprendendo.br.aprendendo.services;
 
 import com.springAprendendo.br.aprendendo.domain.Categoria;
+import com.springAprendendo.br.aprendendo.dto.CategoriaDTO;
 import com.springAprendendo.br.aprendendo.repositories.CategoriaRepository;
 import com.springAprendendo.br.aprendendo.services.services.exceptions.DateIntegrityException;
 import com.springAprendendo.br.aprendendo.services.services.exceptions.ObjectNotFoundException;
@@ -51,6 +52,10 @@ public class CategoriaService {
     public Page<Categoria> findPage(Integer page, Integer linesPerPage, String orderBy, String direction){
         PageRequest pageRequest = PageRequest.of(page,linesPerPage, Sort.Direction.valueOf(direction),orderBy);
         return categoriaRepository.findAll(pageRequest);
+    }
+
+    public Categoria fromDTO(CategoriaDTO categoriaDTO){
+        return new Categoria(categoriaDTO.getId(),categoriaDTO.getNome());
     }
 
 }

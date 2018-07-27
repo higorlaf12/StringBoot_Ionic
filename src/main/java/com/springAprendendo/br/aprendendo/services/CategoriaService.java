@@ -49,7 +49,7 @@ public class CategoriaService {
     }
 
     public Page<Categoria> findPage(Integer page, Integer linesPerPage, String orderBy, String direction){
-        PageRequest pageRequest = new PageRequest(page,linesPerPage, Sort.Direction.valueOf(direction),orderBy);
+        PageRequest pageRequest = PageRequest.of(page,linesPerPage, Sort.Direction.valueOf(direction),orderBy);
         return categoriaRepository.findAll(pageRequest);
     }
 

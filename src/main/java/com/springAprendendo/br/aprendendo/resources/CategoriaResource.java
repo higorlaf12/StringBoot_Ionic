@@ -22,21 +22,21 @@ public class CategoriaResource {
     private CategoriaService service;
 
 
-    @RequestMapping(value = "/page",method = RequestMethod.GET)
+    @RequestMapping(value = "/page", method = RequestMethod.GET)
     public ResponseEntity<Page<CategoriaDTO>> findPage(
-            @RequestParam(value = "page",defaultValue = "0") Integer page,
-            @RequestParam(value = "linesPerPage",defaultValue = "24")Integer linesPerPage,
-            @RequestParam(value = "orderBy",defaultValue = "nome")String orderBy,
-            @RequestParam(value = "direction",defaultValue = "ASC")String direction
-    ){
+            @RequestParam(value = "page", defaultValue = "0") Integer page,
+            @RequestParam(value = "linesPerPage", defaultValue = "24") Integer linesPerPage,
+            @RequestParam(value = "orderBy", defaultValue = "nome") String orderBy,
+            @RequestParam(value = "direction", defaultValue = "ASC") String direction
+    ) {
 
-        Page<Categoria> pageCategoria = service.findPage(page,linesPerPage,orderBy,direction);
+        Page<Categoria> pageCategoria = service.findPage(page, linesPerPage, orderBy, direction);
         Page<CategoriaDTO> listDTO = pageCategoria.map(CategoriaDTO::new);
         return ResponseEntity.ok().body(listDTO);
     }
 
     @RequestMapping(method = RequestMethod.GET)
-    public ResponseEntity<List<CategoriaDTO>> findAll(){
+    public ResponseEntity<List<CategoriaDTO>> findAll() {
         List<Categoria> list = service.findAll();
         List<CategoriaDTO> listDTO = list.stream().map(CategoriaDTO::new).collect(Collectors.toList());
         return ResponseEntity.ok().body(listDTO);
@@ -49,7 +49,7 @@ public class CategoriaResource {
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    public ResponseEntity<Void> insert(@RequestBody Categoria obj){
+    public ResponseEntity<Void> insert(@RequestBody Categoria obj) {
         obj = service.insert(obj);
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
                 .buildAndExpand(obj.getId())
@@ -58,14 +58,14 @@ public class CategoriaResource {
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
-    public ResponseEntity<Void> update(@RequestBody Categoria categoria, @PathVariable Integer id){
+    public ResponseEntity<Void> update(@RequestBody Categoria categoria, @PathVariable Integer id) {
         categoria.setId(id);
         categoria = service.update(categoria);
         return ResponseEntity.noContent().build();
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
-    public ResponseEntity<Void> delete(@PathVariable Integer id){
+    public ResponseEntity<Void> delete(@PathVariable Integer id) {
         service.delete(id);
         return ResponseEntity.noContent().build();
     }

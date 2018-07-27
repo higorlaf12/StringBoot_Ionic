@@ -5,6 +5,7 @@ import com.springAprendendo.br.aprendendo.domain.Categoria;
 import com.springAprendendo.br.aprendendo.dto.CategoriaDTO;
 import com.springAprendendo.br.aprendendo.services.CategoriaService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -19,6 +20,19 @@ public class CategoriaResource {
 
     @Autowired
     private CategoriaService service;
+
+
+    @RequestMapping(value = "/page",method = RequestMethod.GET)
+    public ResponseEntity<Page<CategoriaDTO>> findPage(
+            @RequestParam(value = "page",defaultValue = "0") Integer page,
+            @RequestParam(value = "linesPerPage",defaultValue = "24")Integer linesPerPage,
+            @RequestParam(value = "orderBy",defaultValue = "nome")String orderBy,
+            @RequestParam(value = "direction",defaultValue = "ASC")String direction
+    ){
+        Page<Categoria> pageCategoria = service.findPage(page,linesPerPage,orderBy,direction);
+        Page<CategoriaDTO> listDTO = pageCategoria.map(CategoriaDTO::new);
+        return ResponseEntity.ok().body(listDTO);
+    }
 
     @RequestMapping(method = RequestMethod.GET)
     public ResponseEntity<List<CategoriaDTO>> findAll(){

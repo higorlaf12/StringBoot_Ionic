@@ -3,7 +3,6 @@ package com.springAprendendo.br.aprendendo.services;
 import com.springAprendendo.br.aprendendo.domain.Categoria;
 import com.springAprendendo.br.aprendendo.domain.Cliente;
 import com.springAprendendo.br.aprendendo.dto.ClienteDTO;
-import com.springAprendendo.br.aprendendo.repositories.CategoriaRepository;
 import com.springAprendendo.br.aprendendo.repositories.ClienteRepository;
 import com.springAprendendo.br.aprendendo.services.services.exceptions.DateIntegrityException;
 import com.springAprendendo.br.aprendendo.services.services.exceptions.ObjectNotFoundException;

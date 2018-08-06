@@ -3,6 +3,7 @@ package com.springAprendendo.br.aprendendo.resources;
 
 import com.springAprendendo.br.aprendendo.domain.Cliente;
 import com.springAprendendo.br.aprendendo.dto.ClienteDTO;
+import com.springAprendendo.br.aprendendo.dto.ClienteNewDTO;
 import com.springAprendendo.br.aprendendo.services.ClienteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -48,7 +49,7 @@ public class ClienteResource {
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    public ResponseEntity<Void> insert(@Valid @RequestBody ClienteDTO objDto){
+    public ResponseEntity<Void> insert(@Valid @RequestBody ClienteNewDTO objDto){
         Cliente Cliente = service.fromDTO(objDto);
         Cliente = service.insert(Cliente);
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")

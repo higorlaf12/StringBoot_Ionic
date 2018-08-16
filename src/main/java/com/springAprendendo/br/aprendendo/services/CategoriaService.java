@@ -45,11 +45,11 @@ public class CategoriaService {
 
     public void delete(Integer id){
         find(id);
-        try {
+            Optional<Categoria> categoria = categoriaRepository.findById(id);
+            if(categoria.get().getProdutos().size() > 0){
+                throw new DataIntegrityViolationException("Não é possível excluir uma categoria que apresenta produtos");
+            }
             categoriaRepository.deleteById(id);
-        }catch (DataIntegrityViolationException e){
-            throw new DateIntegrityException("Não é possível excluir uma categoria que apresenta produtos");
-        }
     }
 
     public List<Categoria> findAll(){

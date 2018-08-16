@@ -59,11 +59,11 @@ public class ClienteService {
 
     public void delete(Integer id){
         find(id);
-        try {
+             Optional<Cliente> cliente = clienteRepository.findById(id);
+            if(cliente.get().getPedidos().size() > 0){
+                throw new DateIntegrityException("Não é possível excluir porque há entidades relacionadas");
+            }
             clienteRepository.deleteById(id);
-        }catch (DataIntegrityViolationException e){
-            throw new DateIntegrityException("Não é possível excluir porque há entidades relacionadas");
-        }
     }
 
     public List<Cliente> findAll(){
